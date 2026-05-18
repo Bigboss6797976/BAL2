@@ -1,0 +1,33 @@
+{
+  "name": "blockchain-attack-lab",
+  "version": "1.0.0",
+  "description": "Blockchain Attack Lab - QR Transfer with Blind Signatures",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy-all.js --network hardhat",
+    "deploy-sepolia": "hardhat run scripts/deploy-all.js --network sepolia",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "signer": "cd offline-signer && node server.js",
+    "dev": "react-scripts start"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0",
+    "hardhat": "^2.19.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@openzeppelin/contracts": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "react-qr-reader": "^3.0.0-beta-1",
+    "typescript": "^5.3.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0"
+  }
+}
