@@ -1,50 +1,32 @@
 {
   "name": "blockchain-attack-lab",
   "version": "2.0.0",
-  "description": "Blockchain Attack Lab - QR Transfer with Blind Signatures",
-  "homepage": "https://Bigboss6797976.github.io/BAL2",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Bigboss6797976/BAL2.git"
-  },
+  "description": "Blockchain Attack Lab",
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy-all.js --network hardhat",
-    "deploy-sepolia": "hardhat run scripts/deploy-all.js --network sepolia",
-    "deploy-bsc": "hardhat run scripts/deploy-all.js --network bscTestnet",
     "test": "hardhat test",
     "node": "hardhat node",
-    "signer": "cd offline-signer && node server.js",
-    "dev": "react-scripts start",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy-gh": "gh-pages -d build",
-    "start-all": "concurrently \"npm run node\" \"sleep 3 && npm run deploy\" \"sleep 6 && cd offline-signer && node server.js\" \"sleep 8 && npm run dev\"",
-    "github-install": "bash install.sh"
+    "dev": "react-scripts start"
   },
   "dependencies": {
     "ethers": "^6.9.0",
     "hardhat": "^2.19.0",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.0",
-    "@openzeppelin/contracts": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
-    "react-qr-reader": "^3.0.0-beta-1",
-    "typescript": "^5.3.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "axios": "^1.6.0",
-    "concurrently": "^8.2.0"
-  },
-  "devDependencies": {
-    "chai": "^4.3.10",
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "gh-pages": "^6.1.0"
+    "react-qr-reader": "^3.0.0-beta-1"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
