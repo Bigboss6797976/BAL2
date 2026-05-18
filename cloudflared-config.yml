@@ -1,0 +1,43 @@
+# Cloudflared 隧道配置 - BAL 项目
+# 使用说明:
+# 1. 运行 cloudflared tunnel create bal2 获取 TUNNEL_ID
+# 2. 将 YOUR_TUNNEL_ID 替换为实际 ID
+# 3. 将 YOURNAME 替换为你想要的子域名
+# 4. 运行 cloudflared tunnel route dns TUNNEL_ID bal-YOURNAME.pages.dev
+
+tunnel: YOUR_TUNNEL_ID
+credentials-file: /data/data/com.termux/files/home/.cloudflared/YOUR_TUNNEL_ID.json
+
+# 日志设置
+logfile: /data/data/com.termux/files/home/.cloudflared/cloudflared.log
+log-level: info
+
+# 传输协议 (quic 或 http2)
+protocol: quic
+
+# 心跳和超时
+heartbeat-interval: 5s
+
+# Ingress 规则 - 按顺序匹配
+ingress:
+  # BAL 前端 (Next.js)
+  - hostname: bal-YOURNAME.pages.dev
+    service: http://localhost:3000
+    originRequest:
+      noTLSVerify: true
+      httpHostHeader: localhost
+
+  # Hardhat 本地节点 RPC
+  - hostname: rpc-bal-YOURNAME.pages.dev
+    service: http://localhost:8545
+    originRequest:
+      noTLSVerify: true
+
+  # 可选: Foundry Anvil RPC (如果使用)
+  - hostname: anvil-bal-YOURNAME.pages.dev
+    service: http://localhost:8545
+    originRequest:
+      noTLSVerify: true
+
+  # 默认返回 404
+  - service: http_status:404
