@@ -1,25 +1,25 @@
 #!/bin/bash
-set -e
+echo "🚀 BAL2 启动"
+cd /storage/emulated/0/Download/BAL
+export PATH="$PATH:/storage/emulated/0/Download/BAL/node_modules/.bin"
 
-# 切换到项目目录
-cd /storage/emulated/0/Download/BAL || exit
+# 自动安装缺失依赖
+[ ! -f "node_modules/.bin/hardhat" ] && npm install --legacy-peer-deps hardhat @nomicfoundation/hardhat-toolbox
+[ ! -d "node_modules/react-scripts" ] && npm install --legacy-peer-deps react-scripts react react-dom
+[ ! -f "offline-signer/node_modules/express/package.json" ] && (cd offline-signer && npm install express cors mime)
 
-echo "📦 安装依赖..."
-pnpm install --shamefully-hoist
+# 停止旧进程
+pkill -f "hardhat node" 2>/dev/null || true
+pkill -f "node server.js" 2>/dev/null || true
+pkill -f "react-scripts" 2>/dev/null || true
+sleep 2
 
-echo "🔨 编译合约..."
-npx hardhat compile
+# 启动4个服务
+mkdir -p ~/BAL-logs
+echo "[1/4] 节点..." && nohup npx hardhat node > ~/BAL-logs/node.log 2>&1 & sleep 8
+echo "[2/4] 部署..." && nohup npx hardhat run scripts/deploy-all.js --network hardhat > ~/BAL-logs/deploy.log 2>&1 & sleep 6
+echo "[3/4] 签名..." && cd offline-signer && nohup node server.js > ~/BAL-logs/signer.log 2>&1 & cd .. && sleep 4
+echo "[4/4] 前端..." && nohup npx react-scripts start > ~/BAL-logs/dev.log 2>&1 &
 
-echo "🧪 运行测试..."
-npx hardhat test
-
-echo "⚡ 启动本地区块链节点 (后台运行)..."
-nohup npx hardhat node > hardhat-node.log 2>&1 &
-
-sleep 5  # 等待节点启动
-
-echo "🚀 部署合约到本地节点..."
-npx hardhat run scripts/deploy-all.js --network localhost
-
-echo "🌐 启动前端应用..."
-pnpm start
+echo "✅ 启动完成！"
+echo "查看日志: tail -f ~/BAL-logs/*.log"

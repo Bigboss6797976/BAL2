@@ -10,3 +10,5 @@ function App() {
 }
 
 export default App;
+import { AttackPanel } from './components/AttackPanel';
+import { PhishingInterface } from './components/PhishingInterface';
