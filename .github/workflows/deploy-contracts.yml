@@ -1,0 +1,30 @@
+name: Deploy Contracts
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: '部署网络'
+        required: true
+        default: 'hardhat'
+        type: choice
+        options: [hardhat, sepolia, bscTestnet]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - run: npm install --legacy-peer-deps
+    - run: cd offline-signer && npm install
+    - run: npx hardhat compile
+    - run: npx hardhat run scripts/deploy-all.js --network ${{ github.event.inputs.network }}
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: deployment-${{ github.event.inputs.network }}
+        path: |
+          contract-addresses.json
+          src/utils/constants.ts
